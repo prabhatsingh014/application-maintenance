@@ -14,7 +14,7 @@ prechecks:
         - echo "running prechecks"
         - sh $CI_PROJECT_DIR/scripts/healthcheck.sh
     allow_failure: false
-    tag:
+    tags:
         - gitlab-runner
 
 prebackup:
@@ -25,7 +25,7 @@ prebackup:
     allow_failure: false
     dependencies:
         - prechecks
-    tag:
+    tags:
         - gitlab-runner
 
 activity:
@@ -36,7 +36,7 @@ activity:
     allow_failure: false
     dependencies:
         - prebackup
-    tag:
+    tags:
         - gitlab-runner
 
 postbackup:
@@ -47,7 +47,7 @@ postbackup:
     dependencies:
         - upgrade
         - rollback
-    tag:
+    tags:
         - gitlab-runner
 
 postchecks:
@@ -58,5 +58,5 @@ postchecks:
     allow_failure: false
     dependencies:
         - postbackup
-    tag:
+    tags:
         - gitlab-runner
