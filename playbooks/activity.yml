@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: Install nginx package
+    apt:
+      name: "{{package}}"
+      state: present
+      update_cache: yes
+    when: activity == "install"
+
+  - name: Upgrade nginx package
+    apt:
+      name: "{{package}}"
+      only_upgrade: yes
+      update_cache: yes
+    when: activity == "upgrade"
+
+  - name: Rollback nginx package
+    apt:
+      name: "{{package}}"
+      state: present
+      force: yes
+      update_cache: yes
+    when: activity == "rollback"

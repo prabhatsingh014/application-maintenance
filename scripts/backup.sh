@@ -1,2 +1,2 @@
 #!/bin/bash
-ansible-playbook $CI_PROJECT_DIR/backup.yml -i $CI_PROJECT_DIR/inventory -vv
+ansible-playbook $CI_PROJECT_DIR/playbooks/backup.yml -i $CI_PROJECT_DIR/inventory -vv

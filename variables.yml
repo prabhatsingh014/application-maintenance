@@ -1,7 +1,5 @@
 variables:
-    # type of activity you would like to execute such as upgrade or rollback
+    # type of activity you would like to execute such as install, upgrade or rollback
     activity: upgrade
     # package name
-    package: nginx-1.20.1
-    # backup file name
-    backupfile: version1.20.1
+    package: nginx=1.20.1

@@ -1,0 +1,24 @@
+---
+- hosts: all
+  becomes: yes
+  tasks:
+  - name: check the disk space usage
+    shell: for space in `df -h | grep -v Use% | awk '{print $5}' | awk -F'%' '{print $1}'`; do if [[ $space -ge 80 ]]; then echo "disk space exhausted"; else echo "disk space is okay"; fi; done
+    register: result
+    failed_when: 'exhausted' not in result.stdout
+
+  - name: service name
+    shell: echo {{package}} | awk -F'-' '{print $1}'
+    register: servicename
+
+  - name: check the service is running
+    systemd:
+      name: "{{servicename}}"
+      state: running
+    register: result
+    failed_when: 'active (running)' not in result.stdout
+
+  - name: check the port is listening
+    shell: netstat -antp -4 | grep {{servicename}}
+    register: result
+    failed_when: 'LISTEN' not in result.stdout

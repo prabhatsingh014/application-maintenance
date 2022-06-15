@@ -1,0 +1,8 @@
+---
+- hosts: all
+  becomes: yes
+  tasks:
+  - name: create backup archive of configuration directory
+    archive:
+      path: /etc
+      dest: /tmp/{{package}}.tgz
