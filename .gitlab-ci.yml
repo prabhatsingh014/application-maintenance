@@ -46,8 +46,7 @@ postbackup:
         - sh $CI_PROJECT_DIR/scripts/backup.sh
     allow_failure: false
     dependencies:
-        - upgrade
-        - rollback
+        - activity
     tags:
         - gitlab-runner
 
