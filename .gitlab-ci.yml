@@ -4,7 +4,7 @@ include:
 stages:
     - prechecks
     - prebackup
-    - upgrade
+    - activity
     - postbackup
     - postchecks
 
@@ -12,7 +12,7 @@ prechecks:
     stage: prechecks
     script:
         - echo "running prechecks"
-        - sh $CI_PROJECT_DIR/scripts/prechecks.sh
+        - sh $CI_PROJECT_DIR/scripts/healthcheck.sh
     allow_failure: false
     tag:
         - gitlab-runner
@@ -21,45 +21,28 @@ prebackup:
     stage: prebackup
     script:
         - echo "running prechecks"
-        - sh $CI_PROJECT_DIR/scripts/prebackup.sh
+        - sh $CI_PROJECT_DIR/scripts/backup.sh
     allow_failure: false
     dependencies:
         - prechecks
     tag:
         - gitlab-runner
 
-upgrade:
-    stage:
+activity:
+    stage: activity
     script:
         - echo "running prechecks"
-        - sh $CI_PROJECT_DIR/scripts/upgrade.sh
+        - sh $CI_PROJECT_DIR/scripts/activity.sh
     allow_failure: false
     dependencies:
         - prebackup
-    only:
-        vars:
-            $activity == "upgrade"
-    tag:
-        - gitlab-runner
-
-rollback:
-    stage: rollback
-    script:
-        - echo "running rollback"
-        - sh $CI_PROJECT_DIR/scripts/rollback.sh
-    allow_failure: false
-    dependencies:
-        - prebackup
-    only:
-        vars:
-            $activity == "rollback"
     tag:
         - gitlab-runner
 
 postbackup:
     script:
         - echo "running postbackup"
-        - sh $CI_PROJECT_DIR/scripts/prechecks.sh
+        - sh $CI_PROJECT_DIR/scripts/backup.sh
     allow_failure: false
     dependencies:
         - upgrade
@@ -71,7 +54,7 @@ postchecks:
     stage: postchecks
     script:
         - echo "running postchecks"
-        - sh $CI_PROJECT_DIR/scripts/postchecks.sh
+        - sh $CI_PROJECT_DIR/scripts/healthcheck.sh
     allow_failure: false
     dependencies:
         - postbackup
