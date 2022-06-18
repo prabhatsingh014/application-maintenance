@@ -3,4 +3,3 @@ variables:
     activity: install
     # package name
     package: nginx=1.18.0
-    GIT_SUBMODULE_STRATEGY: recursive
