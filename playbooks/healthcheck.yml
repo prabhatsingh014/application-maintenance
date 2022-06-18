@@ -1,13 +1,15 @@
 ---
 - hosts: all
-  vars: $CI_PROJECT_DIR/variables.yml
+  vars:
+    activity: "{{ lookup('env', 'activity') }}"
+    package: "{{ lookup('env', 'package') }}"
   tasks:
   - name: check the disk space usage
     shell: df -h
     register: result
 
   - name: service name
-    shell: echo {{ lookup('env','package') }} | awk -F'-' '{print $1}'
+    shell: echo {{ package }} | awk -F'-' '{print $1}'
     register: servicename
 
   - name: check the rpm version
