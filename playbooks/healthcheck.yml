@@ -3,9 +3,8 @@
   become: yes
   tasks:
   - name: check the disk space usage
-    shell: for space in `df -h | grep -v Use% | awk '{print $5}' | awk -F'%' '{print $1}'`; do if [[ $space -ge 80 ]]; then echo "disk space exhausted"; else echo "disk space is okay"; fi; done
+    shell: df -h
     register: result
-    failed_when: 'exhausted' not in result.stdout
 
   - name: service name
     shell: echo {{package}} | awk -F'-' '{print $1}'
@@ -13,7 +12,7 @@
 
   - name: check the rpm version
     shell: rpm -qa | grep {{service}}
-    
+
   - name: check the service is running
     systemd:
       name: "{{servicename}}"
