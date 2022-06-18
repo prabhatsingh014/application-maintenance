@@ -14,7 +14,7 @@
   - name: check the service is running
     systemd:
       name: "{{ package }}"
-      state: running
+      state: started
 
   - name: check the port is listening
     shell: netstat -antp -4 | grep {{ package }}
