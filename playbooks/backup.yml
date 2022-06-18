@@ -6,7 +6,23 @@
     activity: "{{ lookup('env', 'activity') }}"
     package: "{{ lookup('env', 'package') }}"
   tasks:
+  - name: create backup directory
+    file:
+      path: /tmp/{{ package }}
+      stage: directory
+
   - name: create backup archive of configuration directory
+    copy:
+      src: /etc
+      dest: /tmp/{{ package }}
+      remmote_src: yes
+
+  - name: create archive
     archive:
-      path: /etc
-      dest: /tmp/{{package}}.tgz
+      path: /tmp/{{ package }}
+      dest: /tmp/{{ package }}.tgz
+
+  - name: remove backup directory
+    file:
+      path: /tmp/{{ package }}
+      state: absent
