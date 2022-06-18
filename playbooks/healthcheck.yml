@@ -13,7 +13,7 @@
     register: servicename
 
   - name: check the rpm version
-    shell: rpm -qa | grep {{servicename.stdout}}
+    shell: rpm -qa | grep "{{servicename}}"
     when: "{{ activity }}" != "install"
 
   - name: check the service is running
