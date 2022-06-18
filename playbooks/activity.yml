@@ -7,6 +7,7 @@
     package: "{{ lookup('env', 'package') }}"
   tasks:
   - name: Install nginx package
+    become_method: sudo
     yum:
       name: "{{ package }}"
       state: present
@@ -15,7 +16,8 @@
     when: activity == "install"
 
   - name: Upgrade nginx package
-    apt:
+    become_method: sudo
+    yum:
       name: "{{ package }}"
       only_upgrade: yes
       update_cache: yes
@@ -23,7 +25,8 @@
     when: activity != "install"
 
   - name: Rollback nginx package
-    apt:
+    become_method: sudo
+    yum:
       name: "{{ package }}"
       state: present
       force: yes
