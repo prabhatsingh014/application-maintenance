@@ -9,7 +9,7 @@
   - name: create backup directory
     file:
       path: /tmp/{{ package }}
-      stage: directory
+      state: directory
 
   - name: create backup archive of configuration directory
     copy:
