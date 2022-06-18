@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  becomes: yes
+  become: yes
   tasks:
   - name: check the disk space usage
     shell: for space in `df -h | grep -v Use% | awk '{print $5}' | awk -F'%' '{print $1}'`; do if [[ $space -ge 80 ]]; then echo "disk space exhausted"; else echo "disk space is okay"; fi; done
