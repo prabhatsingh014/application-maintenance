@@ -10,16 +10,16 @@
     register: servicename
 
   - name: check the rpm version
-    shell: rpm -qa | grep {{service}}
+    shell: rpm -qa | grep {{servicename.stdout}}
 
   - name: check the service is running
     systemd:
-      name: "{{servicename}}"
+      name: "{{servicename.stdout}}"
       state: running
     register: result
     when: activity == "upgrade" or activity == "rollback"
 
   - name: check the port is listening
-    shell: netstat -antp -4 | grep {{servicename}}
+    shell: netstat -antp -4 | grep {{servicename.stdout}}
     register: result
     when: activity == "upgrade" or activity == "rollback"
