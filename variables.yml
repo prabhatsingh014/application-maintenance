@@ -1,6 +1,6 @@
 ---
 variables:
     # type of activity you would like to execute such as install, upgrade or rollback
-    ACTIVITY: "install"
+    activity: "install"
     # name of the package in the same format
-    PACKAGE: "nginx=1.18.0"
+    package: "nginx-1.18.0"
