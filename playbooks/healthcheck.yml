@@ -7,7 +7,7 @@
     register: result
 
   - name: service name
-    shell: echo {{package}} | awk -F'-' '{print $1}'
+    shell: echo {{ lookup('env','package') }} | awk -F'-' '{print $1}'
     register: servicename
 
   - name: check the rpm version
@@ -18,9 +18,9 @@
       name: "{{servicename.stdout}}"
       state: running
     register: result
-    when: activity == "upgrade" or activity == "rollback"
+    when: {{ lookup('env','activity') }} == "upgrade" or {{ lookup('env','activity') }} == "rollback"
 
   - name: check the port is listening
     shell: netstat -antp -4 | grep {{servicename.stdout}}
     register: result
-    when: activity == "upgrade" or activity == "rollback"
+    when: {{ lookup('env','activity') }} == "upgrade" or {{ lookup('env','activity') }} == "rollback"
