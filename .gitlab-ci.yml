@@ -17,17 +17,6 @@ prechecks:
     tags:
         - shell-runner
 
-prebackup:
-    stage: prebackup
-    script:
-        - echo "running prechecks"
-        - sh $CI_PROJECT_DIR/scripts/backup.sh
-    allow_failure: false
-    dependencies:
-        - prechecks
-    tags:
-        - shell-runner
-
 activity:
     stage: activity
     script:
@@ -35,18 +24,7 @@ activity:
         - sh $CI_PROJECT_DIR/scripts/activity.sh
     allow_failure: false
     dependencies:
-        - prebackup
-    tags:
-        - shell-runner
-
-postbackup:
-    stage: postbackup
-    script:
-        - echo "running postbackup"
-        - sh $CI_PROJECT_DIR/scripts/backup.sh
-    allow_failure: false
-    dependencies:
-        - activity
+        - prechecks
     tags:
         - shell-runner
 
@@ -57,6 +35,6 @@ postchecks:
         - sh $CI_PROJECT_DIR/scripts/healthcheck.sh
     allow_failure: false
     dependencies:
-        - postbackup
+        - activity
     tags:
         - shell-runner
