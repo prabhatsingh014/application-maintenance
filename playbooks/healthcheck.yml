@@ -18,9 +18,9 @@
       name: "{{servicename.stdout}}"
       state: running
     register: result
-    when: {{ lookup('env','activity') }} == "upgrade" or {{ lookup('env','activity') }} == "rollback"
+    when: "{{ lookup('env','activity') }}" == "upgrade" or "{{ lookup('env','activity') }}" == "rollback"
 
   - name: check the port is listening
     shell: netstat -antp -4 | grep {{servicename.stdout}}
     register: result
-    when: {{ lookup('env','activity') }} == "upgrade" or {{ lookup('env','activity') }} == "rollback"
+    when: "{{ lookup('env','activity') }}" == "upgrade" or "{{ lookup('env','activity') }}" == "rollback"
