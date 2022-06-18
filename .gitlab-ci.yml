@@ -21,7 +21,7 @@ prebackup:
     stage: prebackup
     script:
         - echo "running backup"
-        - sh $CI_PROJECT_DIR/scripts/backup.sh
+        - sh $CI_PROJECT_DIR/scripts/prebackup.sh
     allow_failure: yes
     dependencies:
         - prechecks
@@ -43,7 +43,7 @@ postbackup:
     stage: postbackup
     script:
         - echo "running backup"
-        - sh $CI_PROJECT_DIR/scripts/backup.sh
+        - sh $CI_PROJECT_DIR/scripts/postbackup.sh
     allow_failure: yes
     dependencies:
         - activity
