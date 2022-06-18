@@ -40,7 +40,7 @@ activity:
         - shell-runner
 
 postbackup:
-    state: postbackup
+    stage: postbackup
     script:
         - echo "running backup"
         - sh $CI_PROJECT_DIR/scripts/backup.sh
