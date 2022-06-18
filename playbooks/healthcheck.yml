@@ -11,14 +11,19 @@
     shell: echo {{package}} | awk -F'-' '{print $1}'
     register: servicename
 
+  - name: check the rpm version
+    shell: rpm -qa | grep {{service}}
+    
   - name: check the service is running
     systemd:
       name: "{{servicename}}"
       state: running
     register: result
+    when: activity == "upgrade" or activity == "rollback"
     failed_when: 'active (running)' not in result.stdout
 
   - name: check the port is listening
     shell: netstat -antp -4 | grep {{servicename}}
     register: result
+    when: activity == "upgrade" or activity == "rollback"
     failed_when: 'LISTEN' not in result.stdout

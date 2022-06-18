@@ -3,10 +3,11 @@
   become: yes
   tasks:
   - name: Install nginx package
-    apt:
+    yum:
       name: "{{package}}"
       state: present
       update_cache: yes
+      allow_downgrade: yes
     when: activity == "install"
 
   - name: Upgrade nginx package
@@ -14,6 +15,7 @@
       name: "{{package}}"
       only_upgrade: yes
       update_cache: yes
+      allow_downgrade: yes
     when: activity == "upgrade"
 
   - name: Rollback nginx package
