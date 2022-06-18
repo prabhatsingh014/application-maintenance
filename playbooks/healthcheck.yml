@@ -1,7 +1,5 @@
 ---
 - hosts: all
-  become: yes
-  become_user: centos
   vars:
     activity: "{{ lookup('env', 'activity') }}"
     package: "{{ lookup('env', 'package') }}"
