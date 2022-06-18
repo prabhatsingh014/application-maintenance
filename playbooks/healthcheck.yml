@@ -19,10 +19,8 @@
       state: running
     register: result
     when: activity == "upgrade" or activity == "rollback"
-    failed_when: 'active (running)' not in result.stdout
 
   - name: check the port is listening
     shell: netstat -antp -4 | grep {{servicename}}
     register: result
     when: activity == "upgrade" or activity == "rollback"
-    failed_when: 'LISTEN' not in result.stdout
