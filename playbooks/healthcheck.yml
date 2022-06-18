@@ -12,18 +12,21 @@
     shell: echo {{ package }} | awk -F'-' '{print $1}'
     register: servicename
 
+  - debug:
+      vars: "{{ servicename }}"
+
   - name: check the rpm version
     shell: rpm -qa | grep "{{servicename}}"
-    when: "{{ activity }}" != "install"
+    when: activity != "install"
 
   - name: check the service is running
     systemd:
       name: "{{servicename.stdout}}"
       state: running
     register: result
-    when: "{{ activity }}" != "install"
+    when: activity != "install"
 
   - name: check the port is listening
     shell: netstat -antp -4 | grep {{servicename.stdout}}
     register: result
-    when: "{{ activity }}" != "install"
+    when: activity != "install"
