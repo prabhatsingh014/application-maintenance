@@ -14,13 +14,16 @@
 
   - name: check the rpm version
     shell: rpm -qa | grep {{servicename.stdout}}
+    when: "{{ activity }}" != "install"
 
   - name: check the service is running
     systemd:
       name: "{{servicename.stdout}}"
       state: running
     register: result
+    when: "{{ activity }}" != "install"
 
   - name: check the port is listening
     shell: netstat -antp -4 | grep {{servicename.stdout}}
     register: result
+    when: "{{ activity }}" != "install"

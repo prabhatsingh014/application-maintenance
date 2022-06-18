@@ -1,27 +1,29 @@
 ---
 - hosts: all
-  become: yes
+  vars:
+    activity: "{{ lookup('env', 'activity') }}"
+    package: "{{ lookup('env', 'package') }}"
   tasks:
   - name: Install nginx package
     yum:
-      name: "{{package}}"
+      name: "{{ package }}"
       state: present
       update_cache: yes
       allow_downgrade: yes
-    when: activity == "install"
+    when: "{{ activity }}" == "install"
 
   - name: Upgrade nginx package
     apt:
-      name: "{{package}}"
+      name: "{{ package }}"
       only_upgrade: yes
       update_cache: yes
       allow_downgrade: yes
-    when: activity == "upgrade"
+    when: "{{ activity }}" != "install"
 
   - name: Rollback nginx package
     apt:
-      name: "{{package}}"
+      name: "{{ package }}"
       state: present
       force: yes
       update_cache: yes
-    when: activity == "rollback"
+    when: "{{ activity }}" != "install"
