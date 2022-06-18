@@ -15,7 +15,7 @@
     copy:
       src: /etc
       dest: /tmp/{{ package }}
-      remmote_src: yes
+      remote_src: yes
 
   - name: create archive
     archive:
