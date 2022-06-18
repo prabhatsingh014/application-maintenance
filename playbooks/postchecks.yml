@@ -8,22 +8,13 @@
     shell: df -h
     register: result
 
-  - name: service name
-    shell: echo {{ package }} | awk -F'-' '{print $1}'
-    register: servicename
-
   - name: check the rpm version
     shell: rpm -qa | grep "{{ package }}"
-    when: activity != "install"
 
   - name: check the service is running
     systemd:
       name: "{{ package }}"
       state: running
-    register: result
-    when: activity != "install"
 
   - name: check the port is listening
     shell: netstat -antp -4 | grep {{ package }}
-    register: result
-    when: activity != "install"

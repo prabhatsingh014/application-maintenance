@@ -1,13 +1,10 @@
 ---
 - hosts: all
-  #become: yes
-  #become_user: centos
   vars:
     activity: "{{ lookup('env', 'activity') }}"
     package: "{{ lookup('env', 'package') }}"
   tasks:
-  - name: Install nginx package
-    become_method: sudo
+  - name: install package
     yum:
       name: "{{ package }}"
       state: present
@@ -15,20 +12,17 @@
       allow_downgrade: yes
     when: activity == "install"
 
-  - name: Upgrade nginx package
-    become_method: sudo
+  - name: upgrade package
     yum:
       name: "{{ package }}"
+      state: latest
       only_upgrade: yes
       update_cache: yes
       allow_downgrade: yes
-    when: activity != "install"
-
-  - name: Rollback nginx package
-    become_method: sudo
+    when: activity == "upgrade"
+  
+  - name: remove package
     yum:
       name: "{{ package }}"
-      state: present
-      force: yes
-      update_cache: yes
-    when: activity != "install"
+      state: absent
+    when: activity == "remove"

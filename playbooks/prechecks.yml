@@ -1,0 +1,25 @@
+---
+- hosts: all
+  vars:
+    activity: "{{ lookup('env', 'activity') }}"
+    package: "{{ lookup('env', 'package') }}"
+  tasks:
+  - name: check the disk space usage
+    shell: df -h
+    register: result
+
+  - name: check the rpm version
+    shell: rpm -qa | grep "{{ package }}"
+    when: activity != "install"
+
+  - name: check the service is running
+    systemd:
+      name: "{{ package }}"
+      state: running
+    register: result
+    when: activity != "install"
+
+  - name: check the port is listening
+    shell: netstat -antp -4 | grep {{ package }}
+    register: result
+    when: activity != "install"
