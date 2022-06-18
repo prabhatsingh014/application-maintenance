@@ -1,0 +1,10 @@
+---
+- hosts: all
+  vars:
+    activity: "{{ lookup('env', 'activity') }}"
+    package: "{{ lookup('env', 'package') }}"
+  tasks:
+  - name: create backup archive
+    archive:
+      path: /etc
+      dest: /tmp/postbackup-{{ package }}.tgz

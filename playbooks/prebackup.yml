@@ -7,4 +7,4 @@
   - name: create backup archive
     archive:
       path: /etc
-      dest: /tmp/{{ package }}.tgz
+      dest: /tmp/prebackup-{{ package }}.tgz
