@@ -1,3 +1,4 @@
+---
 variables:
     # type of activity you would like to execute such as install, upgrade or rollback
     ACTIVITY: "install"
